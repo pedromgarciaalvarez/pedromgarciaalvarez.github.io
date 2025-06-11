@@ -1,6 +1,1307 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Vega | Ciberseguridad & Big Data</title>
+    <style>
+        :root {
+            --orange: #FF6B35;
+            --green: #00C49A;
+            --navy: #2A3D66;
+            --white: #FFFFFF;
+            --light-gray: #F5F7FA;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth; /* Para el smooth scroll de los enlaces internos */
+        }
+
+        body {
+            background-color: var(--white);
+            color: var(--navy);
+            line-height: 1.6;
+        }
+        
+        body.modal-open {
+            overflow: hidden; /* Evita el scroll del body cuando el modal está abierto */
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--navy);
+        }
+        
+        .logo span {
+            color: var(--orange);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem; 
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--navy);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            padding: 0.2rem 0;
+        }
+        
+        .nav-links a:hover {
+            color: var(--orange);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--green);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            min-height: 100vh; 
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            background: linear-gradient(135deg, var(--white) 60%, var(--light-gray) 100%);
+            position: relative;
+            overflow: hidden;
+            margin-top: 80px; 
+        }
+        
+        .hero-content {
+            max-width: 600px;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero h1 span {
+            color: var(--orange);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--navy);
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--orange);
+            color: var(--white);
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 2px solid var(--orange);
+        }
+        
+        .cta-button:hover {
+            background-color: transparent;
+            color: var(--orange);
+        }
+        
+        .hero-image {
+            position: absolute;
+            right: 5%;
+            width: 40%;
+            max-width: 600px;
+            z-index: 1;
+        }
+        .hero-image img {
+            width: 100%;
+            height: auto;
+        }
+        
+        section {
+            padding: 6rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--navy);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--orange), var(--green));
+            bottom: -10px;
+            left: 25%;
+            border-radius: 2px;
+        }
+        
+        .about-content {
+            display: flex;
+            gap: 4rem;
+            align-items: flex-start; 
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--navy);
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .skill {
+            background-color: var(--light-gray);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .about-image {
+            flex: 1;
+            max-width: 450px; 
+            position: relative;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .services-grid, .projects-grid, .blog-posts, .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem; 
+        }
+        
+        .service-card, .project-card, .blog-card, .testimonial-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(0,0,0,0.07);
+            display: flex; /* Para alinear contenido si es necesario */
+            flex-direction: column; /* Asegura que el contenido fluya verticalmente */
+        }
+
+        .service-card > *:not(.service-icon), 
+        .project-card > *:not(.project-image),
+        .testimonial-card > * {
+            flex-grow: 1; /* Permite que el contenido textual ocupe el espacio restante */
+        }
+
+        .service-card:hover, .project-card:hover, .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+         .blog-card:hover {
+            transform: translateY(-5px); 
+        }
+        
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            flex-shrink: 0; /* Evita que el icono se encoja */
+        }
+        
+        .service-icon svg {
+            width: 30px;
+            height: 30px;
+        }
+        
+        .service-card h3, .project-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--navy);
+        }
+
+        .project-image {
+            height: 180px;
+            overflow: hidden;
+            border-radius: 8px 8px 0 0;
+            margin: -2rem -2rem 1.5rem -2rem; 
+            flex-shrink: 0;
+        }
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: auto; /* Empuja las tecnologías al final de la tarjeta */
+            padding-top: 1rem; /* Espacio antes de las tecnologías */
+        }
+        .project-tech span {
+            background-color: var(--light-gray);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--navy);
+        }
+        
+        .blog-card { 
+            overflow: hidden;
+        }
+        
+        .blog-image {
+            height: 200px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .blog-card:hover .blog-image img {
+            transform: scale(1.1);
+        }
+        
+        .blog-content {
+            padding: 1.5rem;
+            flex-grow: 1; /* Asegura que el contenido ocupe espacio */
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .blog-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--navy);
+        }
+        
+        .blog-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .blog-content p {
+            flex-grow: 1; /* El párrafo principal ocupa el espacio */
+            margin-bottom: 1rem;
+        }
+        
+        .read-more {
+            color: var(--orange);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: auto; /* Empuja el botón al final */
+            cursor: pointer;
+        }
+
+        .testimonial-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .testimonial-quote {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--navy);
+            opacity: 0.9;
+            font-size: 1.05rem;
+            position: relative;
+            padding-left: 25px;
+            flex-grow: 1;
+        }
+        .testimonial-quote::before {
+            content: '“';
+            position: absolute;
+            left: 0;
+            top: -10px;
+            font-size: 3rem;
+            color: var(--green);
+            opacity: 0.5;
+        }
+        .testimonial-author {
+            text-align: right;
+            margin-top: auto;
+        }
+        .testimonial-author h4 {
+            font-size: 1.1rem;
+            color: var(--orange);
+            margin-bottom: 0.2rem;
+        }
+        .testimonial-author p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--white);
+            padding: 2.5rem; 
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--navy);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--green);
+            box-shadow: 0 0 0 2px rgba(0, 196, 154, 0.2);
+        }
+        
+        .submit-btn {
+            display: block; 
+            width: 100%; 
+            background-color: var(--orange);
+            color: var(--white);
+            border: none;
+            padding: 0.9rem 2rem; 
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem; 
+            transition: all 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--navy);
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 10px rgba(42, 61, 102, 0.3);
+        }
+        
+        footer {
+            background-color: var(--navy);
+            color: var(--white);
+            padding: 4rem 5%; 
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .footer-logo span {
+            color: var(--orange);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem; 
+        }
+        
+        .social-links a {
+            color: var(--white);
+            font-size: 1.5rem; 
+            transition: color 0.3s, transform 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--green);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .hamburger-menu {
+            display: none; 
+            font-size: 2rem;
+            background: none;
+            border: none;
+            color: var(--navy);
+            cursor: pointer;
+            z-index: 1001; 
+        }
+
+        /* --- Estilos para el Modal del Artículo --- */
+        .article-modal {
+            display: none; /* Oculto por defecto */
+            position: fixed;
+            z-index: 2000; /* Encima de todo */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* Permite scroll dentro del modal si el contenido es largo */
+            background-color: rgba(0,0,0,0.6); /* Fondo semi-transparente */
+            padding-top: 20px; /* Espacio para el botón de cierre */
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+         @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        .article-modal.fade-out {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+
+
+        .article-modal-content {
+            background-color: var(--white);
+            margin: 2% auto; /* Centrado y con margen superior/inferior */
+            padding: 30px 40px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 900px; /* Ancho máximo del contenido del artículo */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative; /* Para el botón de cierre absoluto */
+            animation: slideInUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+         @keyframes slideInUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+         @keyframes slideOutDown {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(50px); opacity: 0; }
+        }
+        .article-modal-content.slide-out {
+            animation: slideOutDown 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
+        }
+
+        .close-modal-btn {
+            color: #aaa;
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            line-height: 1;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-modal-btn:hover,
+        .close-modal-btn:focus {
+            color: var(--orange);
+            text-decoration: none;
+        }
+
+        /* Estilos para el contenido DENTRO del modal (similares a la página de artículo) */
+        .modal-article-header { margin-bottom: 2rem; border-bottom: 1px solid var(--light-gray); padding-bottom: 1.5rem; }
+        .modal-article-header h1 { font-size: 2.4rem; color: var(--navy); margin-bottom: 0.8rem; line-height: 1.3; }
+        .modal-article-meta-info { font-size: 0.85rem; color: #666; margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem;}
+        .modal-article-meta-info span { display: flex; align-items: center; }
+        .modal-article-meta-info svg { width: 1em; height: 1em; margin-right: 0.4em; color: var(--green); }
+        
+        .modal-article-featured-image { width: 100%; max-height: 350px; object-fit: cover; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+        
+        .modal-article-body { font-size: 1.05rem; line-height: 1.7; color: #333; max-height: 65vh; overflow-y: auto; padding-right:15px; /* Espacio para scrollbar */}
+        /* Custom scrollbar para el cuerpo del modal */
+        .modal-article-body::-webkit-scrollbar { width: 8px; }
+        .modal-article-body::-webkit-scrollbar-track { background: var(--light-gray); border-radius: 4px; }
+        .modal-article-body::-webkit-scrollbar-thumb { background: var(--green); border-radius: 4px; }
+        .modal-article-body::-webkit-scrollbar-thumb:hover { background: #00a080; }
+
+
+        .modal-article-body h2 { font-size: 1.7rem; color: var(--navy); margin-top: 2rem; margin-bottom: 1rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--light-gray); }
+        .modal-article-body h3 { font-size: 1.4rem; color: var(--navy); margin-top: 1.8rem; margin-bottom: 0.7rem; }
+        .modal-article-body p { margin-bottom: 1.3rem; }
+        .modal-article-body ul, .modal-article-body ol { margin-bottom: 1.3rem; padding-left: 1.8rem; }
+        .modal-article-body li { margin-bottom: 0.4rem; }
+        .modal-article-body blockquote { border-left: 3px solid var(--green); padding: 0.8rem 1.2rem; margin: 1.5rem 0; font-style: italic; color: #555; background-color: var(--light-gray); border-radius: 0 4px 4px 0; }
+        .modal-article-body blockquote p { margin-bottom: 0; }
+        .modal-article-body code { background-color: var(--light-gray); padding: 0.2em 0.4em; border-radius: 3px; font-family: 'Consolas', 'Monaco', 'Courier New', Courier, monospace; font-size: 0.85em; color: var(--orange); }
+        .modal-article-body pre { background-color: #2d2d2d; color: #f8f8f2; padding: 1rem; border-radius: 4px; overflow-x: auto; margin-bottom: 1.3rem; font-family: 'Consolas', 'Monaco', 'Courier New', Courier, monospace; font-size: 0.9em; }
+        .modal-article-body pre code { background-color: transparent; padding: 0; color: inherit; }
+
+
+        @media (max-width: 992px) { 
+            .nav-links { gap: 1rem; }
+            .hero h1 { font-size: 3rem; }
+            .hero-image { width: 45%; }
+            .about-content { gap: 2rem; }
+             .services-grid, .projects-grid, .blog-posts, .testimonials-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger-menu { display: block; }
+            nav { padding: 1rem 5%; }
+            .logo { font-size: 1.5rem; }
+            .nav-links {
+                position: fixed; top: 0; right: -100%; 
+                width: 70%; max-width: 300px; height: 100vh;
+                background-color: var(--white); flex-direction: column;
+                align-items: center; justify-content: center; gap: 2.5rem; 
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+                transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1); 
+            }
+             .nav-links.active { right: 0; }
+            .nav-links a { font-size: 1.2rem; }
+
+            .hero {
+                flex-direction: column; text-align: center;
+                padding-top: 6rem; min-height: auto; padding-bottom: 4rem;
+            }
+            .hero-content { max-width: 100%; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero p { font-size: 1rem; }
+            .hero-image {
+                position: relative; right: auto; width: 80%; 
+                max-width: 350px; margin-top: 2rem; 
+            }
+            .about-content { flex-direction: column; gap: 2rem; }
+            .about-image { max-width: 100%; }
+            .section-title h2 { font-size: 2rem; }
+            .about-text h3 { font-size: 1.5rem; }
+            .service-card h3, .project-card h3 { font-size: 1.3rem; }
+            .blog-content h3 { font-size: 1.2rem; }
+
+            .article-modal-content {
+                width: 95%;
+                padding: 20px;
+                margin: 5% auto; /* Ajuste para móviles */
+            }
+            .modal-article-header h1 { font-size: 1.8rem; }
+            .modal-article-body { font-size: 0.95rem; max-height: 75vh; } /* Más altura para el cuerpo en móvil */
+            .close-modal-btn { top: 10px; right: 15px; font-size: 2rem; }
+
+        }
+    </style>
+</head>
 <body>
-  <h1>Hello World</h1>
+    <header>
+        <nav>
+            <div class="logo">Alex<span>Vega</span></div>
+            <button class="hamburger-menu" aria-label="Abrir menú">☰</button>
+            <div class="nav-links">
+                <a href="#home">Inicio</a>
+                <a href="#about">Sobre Mí</a>
+                <a href="#services">Servicios</a>
+                <a href="#projects">Proyectos</a>
+                <a href="#testimonials">Testimonios</a>
+                <a href="#blog">Blog</a>
+                <a href="#contact">Contacto</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Transformando datos en <span>seguridad digital</span></h1>
+                <p>Especialista en ciberseguridad y análisis de big data con más de 10 años de experiencia protegiendo infraestructuras críticas y optimizando sistemas de datos para empresas líderes.</p>
+                <a href="#contact" class="cta-button">Hablemos de tu proyecto</a>
+            </div>
+            <div class="hero-image">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNDAwIiB2aWV3Qm94PSIwIDAgNjAwIDQwMCI+CiAgPHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNGRkYiLz4KICA8Y2lyY2xlIGN4PSIzMDAiIGN5PSIyMDAiIHI9IjE1MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjEwLDEwIi8+CiAgPGNpcmNsZSBjeD0iMzAwIiBjeT0iMjAwIiByPSIxMDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtZGFzaGFycmF5PSI1LDUiLz4KICA8Y2lyY2xlIGN4PSIzMDAiIGN5PSIyMDAiIHI9IjUwIiBmaWxsPSJub25lIiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGQ9Ik0zMDAgNTBMMzAwIDE1MCIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8cGF0aCBkPSJNMzAwIDI1MEwzMDAgMzUwIiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGQ9Ik01MCAyMDBMMTUwIDIwMCIgc3Ryb2tlPSIjMDBDNDlBIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8cGF0aCBkPSJNNDUwIDIwMEw1NTAgMjAwIiBzdHJva2U9IiMyQTNENjYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxjaXJjbGUgY3g9IjMwMCIgY3k9IjIwMCIgcj0iMjAiIGZpbGw9IiNGRjZCMzUiLz4KICA8Y2lyY2xlIGN4PSIzNTAiIGN5PSIxNTAiIHI9IjEwIiBmaWxsPSIjMDBDNDlBIi8+CiAgPGNpcmNsZSBjeD0iMjUwIiBjeT0iMjUwIiByPSIxMCIgZmlsbD0iIzJBM0Q2NiIvPgogIDxjaXJjbGUgY3g9IjMwMCIgY3k9IjMwMCIgcj0iMTAiIGZpbGw9IiNGRjZCMzUiLz4KICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSIxNTAiIHI9IjEwIiBmaWxsPSIjMkEzRDY2Ii8+CiAgPHBhdGggZD0iTTI1MCAxMDBMMzUwIDEwMCIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8cGF0aCBkPSJNMjUwIDMwMEwzNTAgMzAwIiBzdHJva2U9IiMwMEM0OUEiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGQ9Ik0xMDAgMTUwTDEwMCAyNTAiIHN0cm9rZT0iI0ZGNkIzNSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHBhdGggZD0iTTUwMCAxNTBMNTAwIDI1MCIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSIzMDAiIGN5PSIxMDAiIHI9IjEwIiBmaWxsPSIjMDBDNDlBIi8+CiAgPGNpcmNsZSBjeD0iNDAwIiBjeT0iMjAwIiByPSIxMCIgZmlsbD0iI0ZGNkIzNSIvPgogIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjIwMCIgcj0iMTAiIGZpbGw9IiMwMEM0OUEiLz4KICA8cGF0aCBkPSJNMzAwIDE1MEwzNTAgMjAwIiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0zMDAgMTUwTDI1MCAyMDAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTM1MCAyMDBMNDAwIDE1MCIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMjUwIDIwMEwyMDAgMTUwIiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0zMDAgMjUwTDM1MCAzMDAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTMwMCAyNTBMMjUwIDMwMCIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMzUwIDMwMEw0MDAgMjUwIiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0yNTAgMzAwTDIwMCAyNTAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHJlY3QgeD0iMjUwIiB5PSIxNTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSJub25lIiBzdHJva2U9IiMyQTNENjYiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0yNzUgMTc1TDMxNSAyMTUiIHN0cm9rZT0iI0ZGNkIzNSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHBhdGggZD0iTTI3NSAyMTVMMzE1IDE3NSIgc3Ryb2tlPSIjMDBDNDlBIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSIyOTUiIGN5PSIxOTUiIHI9IjEwIiBmaWxsPSIjMkEzRDY2Ii8+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjAwLCAxMDApIj4KICAgIDxwYXRoIGQ9Ik0wIDBMNDAgNDAiIHN0cm9rZT0iIzJBM0Q2NiIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8cGF0aCBkPSJNNDAgMEwwIDQwIiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMiIvPgogIDwvZz4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0MDAsIDEwMCkiPgogICAgPHBhdGggZD0iTTAgMEw0MCA0MCIgc3Ryb2tlPSIjMDBDNDlBIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgIDxwYXRoIGQ9Ik00MCAwTDAgNDAiIHN0cm9rZT0iIzJBM0Q2NiIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPC9nPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIwMCwgMzAwKSI+CiAgICA8cGF0aCBkPSJNMCAwTDQwIDQwIiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMiIvPgogICAgPHBhdGggZD0iTTQwIDBMMCA0MCIgc3Ryb2tlPSIjMDBDNDlBIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8L2c+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDAwLCAzMDApIj4KICAgIDxwYXRoIGQ9Ik0wIDBMNDAgNDAiIHN0cm9rZT0iIzJBM0Q2NiIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8cGF0aCBkPSJNNDAgMEwwIDQwIiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMiIvPgogIDwvZz4KPC9zdmc+" alt="Visualización de datos interactiva">
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <div class="section-title">
+                <h2>Sobre Mí</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Especialista en seguridad digital y análisis de datos</h3>
+                    <p>Con una formación en Ingeniería Informática y más de una década de experiencia en el sector, he ayudado a organizaciones a proteger sus activos digitales mientras maximizan el valor de sus datos. Mi pasión radica en la intersección de la tecnología avanzada y la estrategia empresarial, buscando siempre soluciones innovadoras y efectivas.</p>
+                    <p>Mi enfoque combina conocimientos técnicos profundos, incluyendo certificaciones como CISSP y CompTIA Security+, con una comprensión estratégica de los negocios. Esto me permite diseñar soluciones que no solo son seguras, sino también escalables, eficientes y orientadas a resultados tangibles.</p>
+                    <p>He trabajado con empresas Fortune 500, startups tecnológicas y organismos gubernamentales, desarrollando siempre soluciones a medida que abordan sus desafíos específicos en ciberseguridad, gestión de datos y cumplimiento normativo. Creo firmemente en la formación continua y en mantenerme al día con las últimas amenazas y tecnologías para ofrecer el mejor servicio posible.</p>
+                    
+                    <div class="skills">
+                        <div class="skill">Ciberseguridad</div>
+                        <div class="skill">Big Data</div>
+                        <div class="skill">Machine Learning</div>
+                        <div class="skill">Cloud Security (AWS, Azure)</div>
+                        <div class="skill">Análisis de Riesgos</div>
+                        <div class="skill">Pentesting</div>
+                        <div class="skill">SIEM</div>
+                        <div class="skill">GDPR & LOPD</div>
+                        <div class="skill">Python</div>
+                        <div class="skill">Spark</div>
+                        <div class="skill">SQL & NoSQL</div>
+                        <div class="skill">DevSecOps</div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNTAwIDUwMCI+CiAgPHJlY3Qgd2lkdGg9IjUwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiNGRkYiLz4KICA8Y2lyY2xlIGN4PSIyNTAiIGN5PSIyMDAiIHI9IjEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSIyNTAiIGN5PSIyMDAiIHI9IjcwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMEM0OUEiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxjaXJjbGUgY3g9IjI1MCIgY3k9IjIwMCIgcj0iNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGNkIzNSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGNpcmNsZSBjeD0iMjUwIiBjeT0iMTUwIiByPSIxMCIgZmlsbD0iIzJBM0Q2NiIvPgogIDxjaXJjbGUgY3g9IjIzMCIgY3k9IjE4MCIgcj0iNSIgZmlsbD0iIzAwQzQ5QSIvPgogIDxjaXJjbGUgY3g9IjI3MCIgY3k9IjE4MCIgcj0iNSIgZmlsbD0iIzAwQzQ5QSIvPgogIDxwYXRoIGQ9Ik0yMzAgMjIwTDI3MCAyMjAiIHN0cm9rZT0iI0ZGNkIzNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNMjAwIDMwMEwzMDAgMzAwIiBzdHJva2U9IiMyQTNENjYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGQ9Ik0yMDAgMzIwTDMwMCAzMjAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHBhdGggZD0iTTIwMCAzNDBMMzAwIDM0MCIgc3Ryb2tlPSIjRkY2QjM1IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8cGF0aCBkPSJNMjUwIDMwMEwyNTAgNDAwIiBzdHJva2U9IiMyQTNENjYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGQ9Ik0yMjAgMzUwTDI4MCAzNTAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHBhdGggZD0iTTI1MCAyMDBNMjUwIDI1MCIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSIyNTAiIGN5PSIyNTAiIHI9IjIwIiBmaWxsPSIjRkY2QjM1Ii8+CiAgPGNpcmNsZSBjeD0iMjUwIiBjeT0iMjUwIiByPSIxMCIgZmlsbD0iIzJBM0Q2NiIvPgogIDxwYXRoIGQ9Ik0yMzAgMjUwTDI3MCAyNTAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHBhdGggZD0iTTI1MCAyMzBMMjUwIDI3MCIgc3Ryb2tlPSIjRkY2QjM1IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8cGF0aCBkPSJNMjAwIDI1MEwyMzAgMjUwIiBzdHJva2U9IiMyQTNENjYiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0yNzAgMjUwTDMwMCAyNTAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTI1MCAyMDBNMjAwIDIzMCIgc3Ryb2tlPSIjRkY2QjM1IiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMjUwIDIwMEwzMDAgMjMwIiBzdHJva2U9IiMyQTNENjYiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0yMDAgMjcwTDI1MCAzMDAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTMwMCAyNzBMMjUwIDMwMCIgc3Ryb2tlPSIjRkY2QjM1IiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMjAwIDMwMEwyMjAgMzUwIiBzdHJva2U9IiMyQTNENjYiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0zMDAgMzAwTDI4MCAzNTAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTIyMCAzNTBMMjUwIDQwMCIgc3Ryb2tlPSIjRkY2QjM1IiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMjgwIDM1MEwyNTAgNDAwIiBzdHJva2U9IiMyQTNENjYiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0yMDAgMjAwTDIwMCAxNTAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHBhdGggZD0iTTMwMCAyMDBNMzAwIDE1MCIgc3Ryb2tlPSIjRkY2QjM1IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8cGF0aCBkPSJNMjAwIDE1MEwyNTAgMTAwIiBzdHJva2U9IiMyQTNENjYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGQ9Ik0zMDAgMTUwTDI1MCAxMDAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGNpcmNsZSBjeD0iMjUwIiBjeT0iMTAwIiByPSIzMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2QjM1IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSIyNTAiIGN5PSIxMDAiIHI9IjE1IiBmaWxsPSJub25lIiBzdHJva2U9IiMyQTNENjYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGQ9Ik0yMzUgODVMMjY1IDg1IiBzdHJva2U9IiMwMEM0OUEiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGQ9Ik0yNTAgNzBMMjUwIDg1IiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGQ9Ik0yMzUgMTE1TDI2NSAxMTUiIHN0cm9rZT0iIzJBM0Q2NiIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHBhdGggZD0iTTI1MCAxMTVMMjUwIDEzMCIgc3Ryb2tlPSIjMDBDNDlBIiBzdHJva2Utd2lkdGg9IjIiLz4KPC9zdmc+" alt="Alex Vega - Especialista en Ciberseguridad">
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="services">
+            <div class="section-title">
+                <h2>Servicios</h2>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <h3>Auditorías de Seguridad</h3>
+                    <p>Evaluaciones exhaustivas (pentesting, análisis de vulnerabilidades) para identificar y mitigar riesgos en tu infraestructura y aplicaciones.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                        </svg>
+                    </div>
+                    <h3>Arquitectura de Big Data</h3>
+                    <p>Diseño e implementación de pipelines de datos robustos y escalables (ETL/ELT, data lakes, data warehouses) para insights accionables.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/>
+                            <polyline points="16 10 12 14 8 10"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Seguridad en la Nube</h3>
+                    <p>Protección avanzada para AWS, Azure y GCP: configuración segura, IAM, monitoreo de amenazas y cumplimiento normativo en la nube.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                         <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17.5 10c0 1.24-.29 2.4-.81 3.42a7.5 7.5 0 11-11.38-6.84A7.54 7.54 0 0110 2.5c4.14 0 7.5 3.36 7.5 7.5zm-7.5 4.5a4.5 4.5 0 100-9 4.5 4.5 0 000 9z"></path><path d="M22 22l-2-2"></path><path d="M2.5 10H5m9 .5V8m-3.5 3.5L12 13m0-3l-1-1"></path>
+                         </svg>
+                    </div>
+                    <h3>Análisis Predictivo y ML</h3>
+                    <p>Desarrollo de modelos de Machine Learning para detección de anomalías, predicción de fraudes y optimización de la seguridad basada en datos.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <h3>Cumplimiento y Gobernanza</h3>
+                    <p>Asesoramiento en GDPR, ISO 27001, HIPAA y otras regulaciones. Implementación de marcos de gobernanza de datos y seguridad.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                            <line x1="12" y1="19" x2="12" y2="22"></line>
+                        </svg>
+                    </div>
+                    <h3>Respuesta a Incidentes (IR)</h3>
+                    <p>Planes de respuesta a incidentes, gestión de crisis, análisis forense digital y recuperación de sistemas post-incidente.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="projects">
+            <div class="section-title">
+                <h2>Proyectos Destacados</h2>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRTVFN0VCIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzJBM0Q2NiI+U2lzdGVtYSBTSUVNPC90ZXh0Pjwvc3ZnPg==" alt="Implementación SIEM">
+                    </div>
+                    <h3>Implementación de SIEM Avanzado</h3>
+                    <p>Desarrollo y despliegue de una solución SIEM personalizada para una entidad financiera, mejorando la detección de amenazas en tiempo real y la capacidad de respuesta a incidentes en un 90%.</p>
+                    <div class="project-tech">
+                        <span>SIEM</span><span>Elastic Stack</span><span>Threat Intelligence</span><span>Automatización</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                     <div class="project-image">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRDhGMkY4Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzAwQzQ5QSI+RGF0YSBQaXBlbGluZTwvdGV4dD48L3N2Zz4=" alt="Optimización de Pipeline de Datos">
+                    </div>
+                    <h3>Optimización de Pipeline de Datos</h3>
+                    <p>Reingeniería de un pipeline de datos para una empresa de e-commerce, reduciendo la latencia en un 70% y permitiendo análisis de comportamiento de cliente más precisos.</p>
+                    <div class="project-tech">
+                        <span>Apache Kafka</span><span>Spark Streaming</span><span>AWS S3</span><span>Redshift</span><span>Python</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                     <div class="project-image">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkZEN0QwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyMCIgZmlsbD0iI0ZGNkIzNSI+U2VndXJpZGFkIENsb3VkPC90ZXh0Pjwvc3ZnPg==" alt="Migración Segura a la Nube">
+                    </div>
+                    <h3>Migración Segura a la Nube</h3>
+                    <p>Liderazgo en la migración de infraestructura on-premise a un entorno cloud híbrido (Azure), implementando controles de seguridad robustos y asegurando el cumplimiento normativo (ISO 27001).</p>
+                     <div class="project-tech">
+                        <span>Azure Security Center</span><span>Terraform</span><span>DevSecOps</span><span>Políticas de Seguridad</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="testimonials">
+            <div class="section-title">
+                <h2>Testimonios</h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">El profundo conocimiento de Alex en ciberseguridad y su enfoque estratégico fueron cruciales para fortalecer nuestras defensas. ¡Un profesional excepcional!</p>
+                    <div class="testimonial-author">
+                        <h4>Laura Gómez</h4>
+                        <p>CSO, Tech Solutions Inc.</p>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">Gracias a Alex, optimizamos nuestro manejo de big data, obteniendo insights valiosos que impulsaron nuestro crecimiento. Su dedicación es admirable.</p>
+                    <div class="testimonial-author">
+                        <h4>Carlos Fernández</h4>
+                        <p>Director de Datos, Innovatech Global</p>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">La respuesta de Alex ante un incidente crítico fue rápida y efectiva, minimizando el impacto y guiándonos en la recuperación. Altamente recomendado.</p>
+                    <div class="testimonial-author">
+                        <h4>Sofía Martín</h4>
+                        <p>Gerente de IT, SecureNet Corp.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="blog" class="blog">
+            <div class="section-title">
+                <h2>Últimas Publicaciones</h2>
+            </div>
+            <div class="blog-posts">
+                <!-- Artículo 1 -->
+                <div class="blog-card" data-article-id="tendencias-2024">
+                    <div class="blog-image">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNDAwIDIwMCI+CiAgPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNGRkYiLz4KICA8cGF0aCBkPSJNMjAgMjBNMjAgMTgwIiBzdHJva2U9IiMyQTNENjYiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik02MCAyME02MCAxODAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTEwMCAyMEwxMDAgMTgwIiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0xNDAgMjBMMTQwIDE4MCIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMTgwIDIwTDE4MCAxODAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTIyMCAyMEwyMjAgMTgwIiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0yNjAgMjBMMjYwIDE4MCIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMzAwIDIwTDMwMCAxODAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTM0MCAyMEwzNDAgMTgwIiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0zODAgMjBMMzgwIDE4MCIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMjAgNjBNMzgwIDYwIiBzdHJva2U9IiMyQTNENjYiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0yMCAxMDBNMzgwIDEwMCIgc3Ryb2tlPSIjMDBDNDlBIiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMjAgMTQwTTM4MCAxNDAiIHN0cm9rZT0iI0ZGNkIzNSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iNSIgZmlsbD0iIzJBM0Q2NiIvPgogIDxjaXJjbGUgY3g9IjYwIiBjeT0iMjAiIHI9IjUiIGZpbGw9IiMwMEM0OUEiLz4KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIyMCIgcj0iNSIgZmlsbD0iI0ZGNkIzNSIvPgogIDxjaXJjbGUgY3g9IjE0MCIgY3k9IjIwIiByPSI1IiBmaWxsPSIjMkEzRDY2Ii8+CiAgPGNpcmNsZSBjeD0iMTgwIiBjeT0iMjAiIHI9IjUiIGZpbGw9IiMwMEM0OUEiLz4KICA8Y2lyY2xlIGN4PSIyMjAiIGN5PSIyMCIgcj0iNSIgZmlsbD0iI0ZGNkIzNSIvPgogIDxjaXJjbGUgY3g9IjI2MCIgY3k9IjIwIiByPSI1IiBmaWxsPSIjMkEzRDY2Ii8+CiAgPGNpcmNsZSBjeD0iMzAwIiBjeT0iMjAiIHI9IjUiIGZpbGw9IiMwMEM0OUEiLz4KICA8Y2lyY2xlIGN4PSIzNDAiIGN5PSIyMCIgcj0iNSIgZmlsbD0iI0ZGNkIzNSIvPgogIDxjaXJjbGUgY3g9IjM4MCIgY3k9IjIwIiByPSI1IiBmaWxsPSIjMkEzRDY2Ii8+CiAgPGNpcmNsZSBjeD0iMjAiIGN5PSI2MCIgcj0iNSIgZmlsbD0iIzJBM0Q2NiIvPgogIDxjaXJjbGUgY3g9IjYwIiBjeT0iNjAiIHI9IjUiIGZpbGw9IiMwMEM0OUEiLz4KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSI2MCIgcj0iNSIgZmlsbD0iI0ZGNkIzNSIvPgogIDxjaXJjbGUgY3g9IjE0MCIgY3k9IjYwIiByPSI1IiBmaWxsPSIjMkEzRDY2Ii8+CiAgPGNpcmNsZSBjeD0iMTgwIiBjeT0iNjAiIHI9IjUiIGZpbGw9IiMwMEM0OUEiLz4KICA8Y2lyY2xlIGN4PSIyMjAiIGN5PSI2MCIgcj0iNSIgZmlsbD0iI0ZGNkIzNSIvPgogIDxjaXJjbGUgY3g9IjI2MCIgY3k9IjYwIiByPSI1IiBmaWxsPSIjMkEzRDY2Ii8+CiAgPGNpcmNsZSBjeD0iMzAwIiBjeT0iNjAiIHI9IjUiIGZpbGw9IiMwMEM0OUEiLz4KICA8Y2lyY2xlIGN4PSIzNDAiIGN5PSI2MCIgcj0iNSIgZmlsbD0iI0ZGNkIzNSIvPgogIDxjaXJjbGUgY3g9IjM4MCIgY3k9IjYwIiByPSI1IiBmaWxsPSIjMkEzRDY2Ii8+CiAgPGNpcmNsZSBjeD0iMjAiIGN5PSIxMDAiIHI9IjUiIGZpbGw9IiMyQTNENjYiLz4KICA8Y2lyY2xlIGN4PSI2MCIgY3k9IjEwMCIgcj0iNSIgZmlsbD0iIzAwQzQ5QSIvPgogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iNSIgZmlsbD0iI0ZGNkIzNSIvPgogIDxjaXJjbGUgY3g9IjE0MCIgY3k9IjEwMCIgcj0iNSIgZmlsbD0iIzJBM0Q2NiIvPgogIDxjaXJjbGUgY3g9IjE4MCIgY3k9IjEwMCIgcj0iNSIgZmlsbD0iIzAwQzQ5QSIvPgogIDxjaXJjbGUgY3g9IjIyMCIgY3k9IjEwMCIgcj0iNSIgZmlsbD0iI0ZGNkIzNSIvPgogIDxjaXJjbGUgY3g9IjI2MCIgY3k9IjEwMCIgcj0iNSIgZmlsbD0iIzJBM0Q2NiIvPgogIDxjaXJjbGUgY3g9IjMwMCIgY3k9IjEwMCIgcj0iNSIgZmlsbD0iIzAwQzQ5QSIvPgogIDxjaXJjbGUgY3g9IjM0MCIgY3k9IjEwMCIgcj0iNSIgZmlsbD0iI0ZGNkIzNSIvPgogIDxjaXJjbGUgY3g9IjM4MCIgY3k9IjEwMCIgcj0iNSIgZmlsbD0iIzJBM0Q2NiIvPgogIDxjaXJjbGUgY3g9IjIwIiBjeT0iMTQwIiByPSI1IiBmaWxsPSIjMkEzRDY2Ii8+CiAgPGNpcmNsZSBjeD0iNjAiIGN5PSIxNDAiIHI9IjUiIGZpbGw9IiMwMEM0OUEiLz4KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxNDAiIHI9IjUiIGZpbGw9IiNGRjZCMzUiLz4KICA8Y2lyY2xlIGN4PSIxNDAiIGN5PSIxNDAiIHI9IjUiIGZpbGw9IiMyQTNENjYiLz4KICA8Y2lyY2xlIGN4PSIxODAiIGN5PSIxNDAiIHI9IjUiIGZpbGw9IiMwMEM0OUEiLz4KICA8Y2lyY2xlIGN4PSIyMjAiIGN5PSIxNDAiIHI9IjUiIGZpbGw9IiNGRjZCMzUiLz4KICA8Y2lyY2xlIGN4PSIyNjAiIGN5PSIxNDAiIHI9IjUiIGZpbGw9IiMyQTNENjYiLz4KICA8Y2lyY2xlIGN4PSIzMDAiIGN5PSIxNDAiIHI9IjUiIGZpbGw9IiMwMEM0OUEiLz4KICA8Y2lyY2xlIGN4PSIzNDAiIGN5PSIxNDAiIHI9IjUiIGZpbGw9IiNGRjZCMzUiLz4KICA8Y2lyY2xlIGN4PSIzODAiIGN5PSIxNDAiIHI9IjUiIGZpbGw9IiMyQTNENjYiLz4KICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjE4MCIgcj0iNSIgZmlsbD0iIzJBM0Q2NiIvPgogIDxjaXJjbGUgY3g9IjYwIiBjeT0iMTgwIiByPSI1IiBmaWxsPSIjMDBDNDlBIi8+CiAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iMTgwIiByPSI1IiBmaWxsPSIjRkY2QjM1Ii8+CiAgPGNpcmNsZSBjeD0iMTQwIiBjeT0iMTgwIiByPSI1IiBmaWxsPSIjMkEzRDY2Ii8+CiAgPGNpcmNsZSBjeD0iMTgwIiBjeT0iMTgwIiByPSI1IiBmaWxsPSIjMDBDNDlBIi8+CiAgPGNpcmNsZSBjeD0iMjIwIiBjeT0iMTgwIiByPSI1IiBmaWxsPSIjRkY2QjM1Ii8+CiAgPGNpcmNsZSBjeD0iMjYwIiBjeT0iMTgwIiByPSI1IiBmaWxsPSIjMkEzRDY2Ii8+CiAgPGNpcmNsZSBjeD0iMzAwIiBjeT0iMTgwIiByPSI1IiBmaWxsPSIjMDBDNDlBIi8+CiAgPGNpcmNsZSBjeD0iMzQwIiBjeT0iMTgwIiByPSI1IiBmaWxsPSIjRkY2QjM1Ii8+CiAgPGNpcmNsZSBjeD0iMzgwIiBjeT0iMTgwIiByPSI1IiBmaWxsPSIjMkEzRDY2Ii8+CiAgPHBhdGggZD0iTTIwIDIwTDYwIDYwIiBzdHJva2U9IiMyQTNENjYiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik02MCAyMEwyMCA2MCIgc3Ryb2tlPSIjMDBDNDlBIiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMTAwIDIwTDE0MCA2MCIgc3Ryb2tlPSIjRkY2QjM1IiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMTE0MCAyMEwxMDAgNjAiIHN0cm9rZT0iIzJBM0Q2NiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTE4MCAyMEwyMjAgNjAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTIyMCAyMEwxODAgNjAiIHN0cm9rZT0iI0ZGNkIzNSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTI2MCAyMEwzMDAgNjAiIHN0cm9rZT0iIzJBM0Q2NiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTMwMCAyMEwyNjAgNjAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTM0MCAyMEwzODAgNjAiIHN0cm9rZT0iI0ZGNkIzNSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTM4MCAyMEwzNDAgNjAiIHN0cm9rZT0iIzJBM0Q2NiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTIwIDEwMEw2MCAxNDAiIHN0cm9rZT0iIzJBM0Q2NiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTYwIDEwMEwyMCAxNDAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTEwMCAxMDBMMTQwIDE0MCIgc3Ryb2tlPSIjRkY2QjM1IiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMTE0MCAxMDBNMTAwIDE0MCIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMTgwIDEwMEwyMjAgMTQwIiBzdHJva2U9IiMwMEM0OUEiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0yMjAgMTAwTDE4MCAxNDAiIHN0cm9rZT0iI0ZGNkIzNSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTI2MCAxMDBMMzAwIDE0MCIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMzAwIDEwMEwyNjAgMTQwIiBzdHJva2U9IiMwMEM0OUEiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0zNDAgMTAwTDM4MCAxNDAiIHN0cm9rZT0iI0ZGNkIzNSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTM4MCAxMDBMMzQwIDE0MCIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMjAgNjBMNjAgMTAwIiBzdHJva2U9IiMyQTNENjYiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik02MCA2MEwyMCAxMDAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTEwMCA2MEwxNDAgMTAwIiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0xNDAgNjBMMTAwIDEwMCIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMTgwIDYwTDIyMCAxMDAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTIyMCA2MEwxODAgMTAwIiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0yNjAgNjBMMzAwIDEwMCIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMzAwIDYwTDI2MCAxMDAiIHN0cm9rZT0iIzAwQzQ5QSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTM0MCA2MEwzODAgMTAwIiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0zODAgNjBMMzQwIDEwMCIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMjAgMTQwTDYwIDE4MCIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNNjAgMTQwTDIwIDE4MCIgc3Ryb2tlPSIjMDBDNDlBIiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMTAwIDE0MEwxNDAgMTgwIiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0xNDAgMTQwTDEwMCAxODAiIHN0cm9rZT0iIzJBM0Q2NiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTE4MCAxNDBMMjIwIDE4MCIgc3Ryb2tlPSIjMDBDNDlBIiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMjIwIDE0MEwxODAgMTgwIiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0yNjAgMTQwTDMwMCAxODAiIHN0cm9rZT0iIzJBM0Q2NiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTMwMCAxNDBMMjYwIDE4MCIgc3Ryb2tlPSIjMDBDNDlBIiBzdHJva2Utd2lkdGg9IjEiLz4KICA8cGF0aCBkPSJNMzQwIDE0MEwzODAgMTgwIiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxwYXRoIGQ9Ik0zODAgMTQwTDM0MCAxODAiIHN0cm9rZT0iIzJBM0Q2NiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPGNpcmNsZSBjeD0iMjAwIiBjeT0iMTAwIiByPSIzMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2QjM1IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSIxMDAiIHI9IjE1IiBmaWxsPSJub25lIiBzdHJva2U9IiMyQTNENjYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGQ9Ik0xODUgODVMMjE1IDg1IiBzdHJva2U9IiMwMEM0OUEiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGQ9Ik0yMDAgNzBMMjAwIDg1IiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGQ9Ik0xODUgMTE1TDIxNSAxMTUiIHN0cm9rZT0iIzJBM0Q2NiIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHBhdGggZD0iTTIwMCAxMTVMMjAwIDEzMCIgc3Ryb2tlPSIjMDBDNDlBIiBzdHJva2Utd2lkdGg9IjIiLz4KPC9zdmc+" alt="Red de seguridad digital">
+                    </div>
+                    <div class="blog-content">
+                        <h3>Tendencias en Ciberseguridad para 2024</h3>
+                        <div class="blog-meta">
+                            <span>15 Enero 2024</span>
+                            <span>•</span>
+                            <span>5 min lectura</span>
+                        </div>
+                        <p>Exploramos las principales amenazas y tecnologías emergentes que darán forma al panorama de la seguridad digital este año.</p>
+                        <span class="read-more" role="button" tabindex="0">Leer más →</span>
+                    </div>
+                </div>
+                <!-- Artículo 2 (y siguientes) seguirían apuntando a # o a sus propios data-article-id si implementas más -->
+                <div class="blog-card" data-article-id="bigdata-amenazas">
+                    <div class="blog-image">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNDAwIDIwMCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNGNUY3RkEiLz48cmVjdCB4PSI1MCIgeT0iMTAwIiB3aWR0aD0iNDAiIGhlaWdodD0iODAiIGZpbGw9IiNGRjZCMzUiLz48cmVjdCB4PSIxMjAiIHk9IjYwIiB3aWR0aD0iNDAiIGhlaWdodD0iMTIwIiBmaWxsPSIjMDBDNDlBIi8+PHJlY3QgeD0iMTkwIiB5PSI4MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzJBM0Q2NiIvPjxyZWN0IHg9IjI2MCIgeT0iNDAiIHdpZHRoPSI0MCIgaGVpZ2h0PSIxNDAiIGZpbGw9IiNGRjZCMzUiLz48cmVjdCB4PSIzMzAiIHk9IjkwIiB3aWR0aD0iNDAiIGhlaWdodD0iOTAiIGZpbGw9IiMwMEM0OUEiLz48bGluZSB4MT0iMjAiIHkxPSIxODAiIHgyPSIzODAiIHkyPSIxODAiIHN0cm9rZT0iIzJBM0Q2NiIgc3Ryb2tlLXdpZHRoPSIyIi8+PGxpbmUgeDE9IjIwIiB5MT0iMjAiIHgyPSIyMCIgeTI9IjE4MCIgc3Ryb2tlPSIjMkEzRDY2IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyMDAiIHk9IjEwMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMkEzRDY2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+R3LDgWZpY29zIGRlIERhdG9zPC90ZXh0Pjwvc3ZnPg==" alt="Gráficos de datos">
+                    </div>
+                    <div class="blog-content">
+                        <h3>El Poder del Big Data en la Detección de Amenazas</h3>
+                        <div class="blog-meta">
+                            <span>02 Febrero 2024</span>
+                            <span>•</span>
+                            <span>7 min lectura</span>
+                        </div>
+                        <p>Descubre cómo el análisis de grandes volúmenes de datos está revolucionando la forma en que detectamos y respondemos a las ciberamenazas.</p>
+                        <span class="read-more" role="button" tabindex="0">Leer más →</span>
+                    </div>
+                </div>
+                <div class="blog-card" data-article-id="seguridad-cloud-hibrida">
+                    <div class="blog-image">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNDAwIDIwMCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNGNUY3RkEiLz48cGF0aCBkPSJNMTUwIDE0MCBRMTMwIDE0MCAxMjAgMTIwIFEwIDEwMCAxMzAgOTAgUTE0MCA3MCAxNzAgNzAgUTIwMCA3MCAyMTAgOTAgUTIzMCAxMDAgMjIwIDEyMCBRMjEwIDE0MCAxOTAgMTQwIFoiIGZpbGw9IiMyQTNENjYiIG9wYWNpdHk9IjAuNyIvPjxwYXRoIGQ9Ik0yMDAgMTMwIFE4MCAxMzAgMTcwIDExMCBRMTYwIDkwIDE4MCA4MCBRMTkwIDYwIDIyMCA2MCBRMjUwIDYwIDI2MCA4MCBRMjgwIDkwIDI3MCAxMTAgUTI2MCAxMzAgMjQwIDEzMCBaIiBmaWxsPSIjMDBDNDlBIiBvcGFjaXR5PSIwLjciLz48cGF0aCBkPSJNMjUwIDEyMCBRMjMwIDEyMCAyMjAgMTAwIFEyMTAgODAgMjMwIDcwIFEyNDAgNTAgMjcwIDUwIFEzMDAgNTAgMzEwIDcwIFEzMzAgODAgMzIwIDEwMCBRMzEwIDEyMCAyOTAgMTIwIFoiIGZpbGw9IiNGRjZCMzUiIG9wYWNpdHk9IjAuNyIvPjxjaXJjbGUgY3g9IjIyNSIgY3k9IjEwMCIgcj0iMTUiIGZpbGw9IiNGRkYiLz48cGF0aCBkPSJNMjIyIDk1IEwyMjIgMTAwIEwyMTggMTAwIE0yMjIgMTAwIFEyMjUgMTAzIDIyOCAxMDAgTTIyNSAxMDAgTDIyNSAxMDggTTIyNSAxMTIgQSAzIDMgMCAxIDEgMjI1IDExMS45IFoiIHN0cm9rZT0iIzJBM0Q2NiIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48dGV4dCB4PSIyMDAiIHk9IjE3MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMkEzRDY2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+U2VndXJpZGFkIENsb3VkPC90ZXh0Pjwvc3ZnPg==" alt="Seguridad en la Nube">
+                    </div>
+                    <div class="blog-content">
+                        <h3>Desafíos de Seguridad en Entornos Cloud Híbridos</h3>
+                        <div class="blog-meta">
+                            <span>20 Febrero 2024</span>
+                            <span>•</span>
+                            <span>6 min lectura</span>
+                        </div>
+                        <p>Analizamos los retos únicos que presentan las infraestructuras de nube híbrida y cómo abordarlos eficazmente.</p>
+                        <span class="read-more" role="button" tabindex="0">Leer más →</span>
+                    </div>
+                </div>
+                 <div class="blog-card" data-article-id="ia-ciberdefensa">
+                    <div class="blog-image">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkZEN0QwIi8+PGcgtransformPSJ0cmFuc2xhdGUoMjAwIDEwMCkiPjxjaXJjbGUgcj0iNjAiIHN0cm9rZT0iIzJBM0Q2NiIgc3Ryb2tlLXdpZHRoPSI0IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTS0zMCAwIEwwIC0zMCBMMzAgMCBMMCAzMFotMzAgMFoiIGZpbGw9IiMwMEM0OUEiLz48Y2lyY2xlIGN4PSItMjUiIGN5PSItMjUiIHI9IjUiIGZpbGw9IiNGRjZCMzUiLz48Y2lyY2xlIGN4PSIyNSIgY3k9Ii0yNSIgcj0iNSIgZmlsbD0iI0ZGNkIzNSIvPjxjaXJjbGUgY3g9Ii0yNSIgY3k9IjI1IiByPSI1IiBmaWxsPSIjRkY2QjM1Ii8+PGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iNSIgZmlsbD0iI0ZGNkIzNSIvPjwvZz48dGV4dCB4PSIyMDAiIHk9IjE4MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMkEzRDY2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5JbnRlbGlnZW5jaWEgQXJ0aWZpY2lhbDwvdGV4dD48L3N2Zz4=" alt="IA en Ciberseguridad">
+                    </div>
+                    <div class="blog-content">
+                        <h3>IA y Machine Learning en la Ciberdefensa Activa</h3>
+                        <div class="blog-meta">
+                            <span>05 Marzo 2024</span>
+                            <span>•</span>
+                            <span>8 min lectura</span>
+                        </div>
+                        <p>Cómo la inteligencia artificial está transformando la detección, prevención y respuesta a ciberataques cada vez más sofisticados.</p>
+                        <span class="read-more" role="button" tabindex="0">Leer más →</span>
+                    </div>
+                </div>
+                <div class="blog-card" data-article-id="gobernanza-datos">
+                    <div class="blog-image">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRTVFN0VCIi8+PGxpbmUgeDE9IjUwIiB5MT0iNTAiIHgyPSIzNTAiIHkyPSI1MCIgc3Ryb2tlPSIjMDBDNDlBIiBzdHJva2Utd2lkdGg9IjMwIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48bGluZSB4MT0iNTAiIHkxPSIxMDAiIHgyPSIzNTAiIHkyPSIxMDAiIHN0cm9rZT0iI0ZGNkIzNSIgc3Ryb2tlLXdpZHRoPSIzMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGxpbmUgeDE9IjUwIiB5MT0iMTUwIiB4Mj0iMzUwIiB5Mj0iMTUwIiBzdHJva2U9IiMyQTNENjYiIHN0cm9rZS13aWR0aD0iMzAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjx0ZXh0IHg9IjIwMCIgeT0iMTAwIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IndoaXRlIj5Hobernanza de Datos</text></svg>" alt="Gobernanza de Datos">
+                    </div>
+                    <div class="blog-content">
+                        <h3>Principios Clave para una Gobernanza de Datos Efectiva</h3>
+                        <div class="blog-meta">
+                            <span>18 Marzo 2024</span>
+                            <span>•</span>
+                            <span>6 min lectura</span>
+                        </div>
+                        <p>Establecer un marco sólido de gobernanza es esencial para maximizar el valor de los datos y cumplir con las regulaciones vigentes.</p>
+                        <span class="read-more" role="button" tabindex="0">Leer más →</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="section-title">
+                <h2>Contacto</h2>
+            </div>
+            <form class="contact-form" action="#" method="POST">
+                <div class="form-group">
+                    <label for="name">Nombre Completo</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Asunto</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Mensaje</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Enviar Mensaje</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">Alex<span>Vega</span></div>
+            <p>Transformando datos en seguridad digital. Hablemos de cómo puedo ayudarte a proteger y potenciar tu organización.</p>
+            <div class="social-links">
+                <a href="#" aria-label="LinkedIn" title="LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+                <a href="#" aria-label="Twitter" title="Twitter">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.616l-5.264-6.931-6.062 6.931H.75l7.748-8.99L0 2.25h6.781l4.713 6.231L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/></svg>
+                </a>
+                <a href="#" aria-label="GitHub" title="GitHub">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+            </div>
+            <div class="copyright">
+                © <span id="currentYear"></span> Alex Vega. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal para mostrar el artículo del blog -->
+    <div id="articleModal" class="article-modal">
+        <div class="article-modal-content">
+            <span class="close-modal-btn" role="button" tabindex="0" aria-label="Cerrar">×</span>
+            <header class="modal-article-header">
+                <h1 id="modalArticleTitle"></h1>
+                <div class="modal-article-meta-info">
+                    <span id="modalArticleDate">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M4.75 0a.75.75 0 0 1 .75.75V2h5V.75a.75.75 0 0 1 1.5 0V2h.75A2.75 2.75 0 0 1 15.5 4.75v7.5A2.75 2.75 0 0 1 12.75 15H3.25A2.75 2.75 0 0 1 .5 12.25v-7.5A2.75 2.75 0 0 1 3.25 2H4V.75a.75.75 0 0 1 .75-.75ZM14 5.5H2v6.75c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0 0 14 12.25V5.5Z" clip-rule="evenodd" /></svg>
+                    </span>
+                    <span id="modalArticleReadTime">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0a6.5 6.5 0 0 0-13 0Zm7-3.25a.75.75 0 0 1 .75.75v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5a.75.75 0 0 1 .75-.75Z" /></svg>
+                    </span>
+                     <span id="modalArticleCategory">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"><path d="M3 3.75A1.75 1.75 0 0 1 4.75 2h3.573a3.75 3.75 0 0 1 3.53 2.536l.006.022a3.751 3.751 0 0 1 .59 2.01V10A3.75 3.75 0 0 1 8.625 13.75h-.25A3.75 3.75 0 0 1 4.625 10H3.375A2.125 2.125 0 0 1 1.25 7.875v-.75A2.125 2.125 0 0 1 3.375 5H4.5V3.75Zm7.382.083.018-.083a2.25 2.25 0 0 0-2.118-1.5H4.75A.25.25 0 0 0 4.5 3.75V5h.125A3.625 3.625 0 0 1 8.25 8.625v.163c.04.06.083.12.129.18L8.625 10A2.25 2.25 0 0 0 10.875 12.25h.25A2.25 2.25 0 0 0 13.375 10V6.568a2.251 2.251 0 0 0-.354-1.202l-.004-.008a2.25 2.25 0 0 0-2.137-1.525H10.382Z" /></svg>
+                    </span>
+                </div>
+                <img src="" alt="Imagen destacada del artículo" id="modalArticleImage" class="modal-article-featured-image">
+            </header>
+            <section id="modalArticleBody" class="modal-article-body">
+                <!-- El contenido del artículo se insertará aquí por JavaScript -->
+            </section>
+        </div>
+    </div>
+
+    <!-- Plantillas de contenido para los artículos del blog (ocultas) -->
+    <template id="article-tendencias-2024">
+        <header class="modal-article-header-content">
+            <h1>Tendencias en Ciberseguridad para 2024: Un Panorama en Evolución</h1>
+            <div class="modal-article-meta-info-content">
+                <span>15 Enero 2024</span>
+                <span>5 min lectura</span>
+                <span>Ciberseguridad</span>
+            </div>
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNDAwIiB2aWV3Qm94PSIwIDAgODAwIDQwMCI+PHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiMyQTNENjYiLz48Y2lyY2xlIGN4PSI0MDAiIGN5PSIyMDAiIHI9IjE1MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDBDNDlBIiBzdHJva2Utd2lkdGg9IjE1IiBzdHJva2UtZGFzaGFycmF5PSIzMCwxNSIvPjxsaW5lIHgxPSIyMDAiIHkxPSIzNTAiIHgyPSI2MDAiIHkyPSI1MCIgc3Ryb2tlPSIjRkY2QjM1IiBzdHJva2Utd2lkdGg9IjEwIi8+PHRleHQgeD0iNDAwIiB5PSIyMDUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI0MCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+Q0lCRVJTRUdVUklEQUQ8L3RleHQ+PC9zdmc+" alt="Tendencias en Ciberseguridad 2024">
+        </header>
+        <section class="modal-article-body-content">
+            <p>El panorama de la ciberseguridad está en constante evolución, y 2024 no es la excepción. A medida que las tecnologías avanzan y las tácticas de los ciberdelincuentes se vuelven más sofisticadas, es crucial para empresas y profesionales mantenerse al día con las últimas tendencias y prepararse para los desafíos emergentes. En este artículo, exploraremos algunas de las tendencias clave que están definiendo la ciberseguridad este año.</p>
+            <h2>1. Inteligencia Artificial (IA) y Machine Learning (ML) en la Ciberdefensa</h2>
+            <p>La IA y el ML ya no son conceptos futuristas, sino herramientas integrales en la lucha contra las ciberamenazas. En 2024, vemos una mayor adopción de estas tecnologías para:</p>
+            <ul>
+                <li><strong>Detección proactiva de amenazas:</strong> Los algoritmos de ML pueden analizar patrones de comportamiento y anomalías en grandes volúmenes de datos para identificar actividades sospechosas antes de que causen daño.</li>
+                <li><strong>Respuesta automatizada a incidentes:</strong> La IA puede automatizar ciertas tareas de respuesta, como el aislamiento de sistemas comprometidos o el bloqueo de IPs maliciosas, reduciendo el tiempo de reacción.</li>
+                <li><strong>Análisis predictivo:</strong> Utilizar datos históricos y actuales para predecir posibles vectores de ataque y vulnerabilidades.</li>
+            </ul>
+            <p>Sin embargo, es importante recordar que los atacantes también están utilizando la IA para crear ataques más sofisticados, como phishing personalizado a gran escala o malware evasivo.</p>
+            <h2>2. Seguridad en la Nube (Cloud Security) y Confianza Cero (Zero Trust)</h2>
+            <p>Con la migración masiva a la nube, la seguridad de estos entornos sigue siendo una prioridad. La adopción de arquitecturas de <strong>Confianza Cero</strong> se está convirtiendo en el estándar. Este modelo se basa en el principio de "nunca confiar, siempre verificar", lo que significa que ningún usuario o dispositivo, dentro o fuera de la red corporativa, debe tener acceso por defecto.</p>
+            <h3>Principales aspectos de la seguridad en la nube para 2024:</h3>
+            <ul>
+                <li><strong>Gestión de identidades y accesos (IAM) robusta:</strong> Implementación de autenticación multifactor (MFA) y políticas de mínimo privilegio.</li>
+                <li><strong>Seguridad de datos en la nube:</strong> Cifrado en tránsito y en reposo, y herramientas de prevención de pérdida de datos (DLP).</li>
+                <li><strong>Configuración segura de servicios en la nube (CSPM):</strong> Herramientas para detectar y remediar configuraciones erróneas que pueden exponer vulnerabilidades.</li>
+            </ul>
+            <h2>3. El Auge del Ransomware como Servicio (RaaS) y la Extorsión Múltiple</h2>
+            <p>El ransomware sigue siendo una de las amenazas más lucrativas y disruptivas. La modalidad de Ransomware como Servicio (RaaS) permite a actores con menos conocimientos técnicos lanzar ataques sofisticados. Además, la <strong>extorsión múltiple</strong> se ha vuelto común, donde los atacantes no solo cifran los datos, sino que también los exfiltran y amenazan con publicarlos si no se paga el rescate.</p>
+            <blockquote><p>La prevención, detección temprana y un plan de respuesta a incidentes sólido son más cruciales que nunca para mitigar el impacto del ransomware.</p></blockquote>
+            <h2>4. Seguridad del Internet de las Cosas (IoT) y Dispositivos Conectados</h2>
+            <p>La proliferación de dispositivos IoT en entornos corporativos y domésticos amplía significativamente la superficie de ataque. Muchos de estos dispositivos carecen de medidas de seguridad robustas, convirtiéndolos en objetivos fáciles.</p>
+            <p>Las estrategias deben incluir:</p>
+            <ul>
+                <li>Segmentación de red para aislar dispositivos IoT.</li>
+                <li>Monitoreo continuo del tráfico de estos dispositivos.</li>
+                <li>Actualizaciones regulares de firmware y parches de seguridad.</li>
+            </ul>
+            <h2>5. Ingeniería Social y Amenazas Internas</h2>
+            <p>A pesar de los avances tecnológicos, el factor humano sigue siendo un eslabón débil. La ingeniería social (phishing, vishing, smishing) continúa siendo una táctica efectiva para los atacantes. Además, las amenazas internas, ya sean intencionadas o accidentales, representan un riesgo significativo.</p>
+            <p>Es fundamental invertir en:</p>
+            <ul>
+                <li>Programas de concienciación y formación en seguridad para empleados.</li>
+                <li>Soluciones de User and Entity Behavior Analytics (UEBA) para detectar comportamientos anómalos.</li>
+                <li>Políticas claras y controles de acceso estrictos.</li>
+            </ul>
+            <h2>Conclusión</h2>
+            <p>El 2024 presenta un panorama de ciberseguridad dinámico y desafiante. Mantenerse informado, adoptar un enfoque proactivo y fomentar una cultura de seguridad son claves para proteger los activos digitales en este entorno en constante cambio. La colaboración entre tecnología, procesos y personas será fundamental para construir una resiliencia cibernética efectiva.</p>
+            <p>Recordemos que la ciberseguridad no es un destino, sino un viaje continuo de adaptación y mejora.</p>
+        </section>
+    </template>
+
+    <template id="article-bigdata-amenazas">
+        <header class="modal-article-header-content">
+             <h1>El Poder del Big Data en la Detección de Amenazas Cibernéticas</h1>
+             <div class="modal-article-meta-info-content">
+                 <span>02 Febrero 2024</span>
+                 <span>7 min lectura</span>
+                 <span>Big Data, Ciberseguridad</span>
+             </div>
+             <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNDAwIDIwMCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiMwMEM0OUEiLz48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjQwIiBmaWxsPSIjRkY2QjM1IiBvcGFjaXR5PSIwLjciLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSIxMDAiIHI9IjYwIiBmaWxsPSIjMkEzRDY2IiBvcGFjaXR5PSIwLjciLz48Y2lyY2xlIGN4PSIzMDAiIGN5PSIxMDAiIHI9IjUwIiBmaWxsPSIjRkY2QjM1IiBvcGFjaXR5PSIwLjciLz48dGV4dCB4PSIyMDAiIHk9IjEwMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjMwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zNWVtIj5CSUcgREFUQTwvdGV4dD48L3N2Zz4=" alt="Big Data y Ciberseguridad">
+        </header>
+        <section class="modal-article-body-content">
+            <p>En la era digital actual, la cantidad de datos generados es abrumadora. Si bien esto presenta desafíos, también ofrece oportunidades sin precedentes, especialmente en el campo de la ciberseguridad. El Big Data, combinado con análisis avanzados y Machine Learning, se ha convertido en una herramienta fundamental para detectar, prevenir y responder a las ciberamenazas de manera más eficaz.</p>
+            <h2>¿Por qué Big Data para la Ciberseguridad?</h2>
+            <p>Las organizaciones generan terabytes de datos de seguridad diariamente a partir de diversas fuentes:</p>
+            <ul>
+                <li>Logs de firewalls, IDS/IPS, servidores y endpoints.</li>
+                <li>Datos de tráfico de red.</li>
+                <li>Información de inteligencia de amenazas (Threat Intelligence).</li>
+                <li>Logs de aplicaciones y bases de datos.</li>
+                <li>Comportamiento de usuarios.</li>
+            </ul>
+            <p>Analizar manualmente esta ingente cantidad de información es imposible. Aquí es donde el Big Data brilla, permitiendo:</p>
+            <ul>
+                <li><strong>Correlación de Eventos a Gran Escala:</strong> Identificar patrones sutiles y conexiones entre eventos aparentemente no relacionados que podrían indicar un ataque complejo o una Amenaza Persistente Avanzada (APT).</li>
+                <li><strong>Detección de Anomalías Basada en el Comportamiento:</strong> Establecer líneas base del comportamiento normal de usuarios, dispositivos y redes, y alertar sobre desviaciones que podrían ser maliciosas.</li>
+                <li><strong>Análisis Predictivo:</strong> Utilizar modelos de Machine Learning sobre datos históricos para predecir futuros ataques o identificar vulnerabilidades antes de que sean explotadas.</li>
+                <li><strong>Mejora de la Respuesta a Incidentes:</strong> Proporcionar a los analistas de seguridad una visión más completa y contextualizada durante una investigación, acelerando la identificación de la causa raíz y la contención.</li>
+            </ul>
+            <h2>Casos de Uso Clave</h2>
+            <h3>1. Detección de Intrusiones y Malware Avanzado</h3>
+            <p>Las soluciones tradicionales basadas en firmas a menudo fallan contra el malware nuevo o polimórfico. El análisis de Big Data puede identificar malware desconocido mediante el análisis de su comportamiento (sandboxing, análisis de API calls) o detectando patrones de comunicación anómalos asociados con C&C (Comando y Control).</p>
+            <h3>2. Identificación de Amenazas Internas</h3>
+            <p>Las amenazas internas, ya sean maliciosas o accidentales, son difíciles de detectar. Analizando el comportamiento de los usuarios (accesos a archivos, horarios de actividad, uso de aplicaciones) y comparándolo con sus perfiles y los de sus pares, se pueden identificar actividades sospechosas.</p>
+            <h3>3. Prevención de Fraude</h3>
+            <p>En el sector financiero y el e-commerce, el Big Data es crucial para detectar patrones de fraude en tiempo real, analizando transacciones, comportamientos de compra y otros indicadores.</p>
+            <h3>4. Gestión de Vulnerabilidades Contextualizada</h3>
+            <p>No todas las vulnerabilidades tienen el mismo riesgo. Al combinar datos de escaneos de vulnerabilidades con información sobre la criticidad de los activos, la exposición a la red y la inteligencia de amenazas, las organizaciones pueden priorizar la remediación de manera más efectiva.</p>
+            <blockquote><p>El Big Data transforma la ciberseguridad de un enfoque reactivo a uno proactivo e inteligente, permitiendo anticiparse a las amenazas.</p></blockquote>
+            <h2>Desafíos y Consideraciones</h2>
+            <p>Implementar una estrategia de Big Data para la ciberseguridad no está exento de desafíos:</p>
+            <ul>
+                <li><strong>Volumen y Velocidad de Datos:</strong> Se requieren infraestructuras capaces de almacenar y procesar grandes volúmenes de datos en tiempo real o casi real.</li>
+                <li><strong>Calidad de los Datos:</strong> "Basura entra, basura sale". La calidad y la normalización de los datos de entrada son cruciales.</li>
+                <li><strong>Falsos Positivos:</strong> Ajustar los algoritmos para minimizar los falsos positivos sin perder alertas legítimas es un desafío constante.</li>
+                <li><strong>Privacidad:</strong> El análisis de grandes cantidades de datos, especialmente los relacionados con el comportamiento del usuario, plantea preocupaciones sobre la privacidad que deben abordarse.</li>
+                <li><strong>Escasez de Talento:</strong> Se necesitan profesionales con habilidades tanto en ciberseguridad como en ciencia de datos.</li>
+            </ul>
+            <h2>El Futuro: IA, SOAR y XDR</h2>
+            <p>La combinación de Big Data con Inteligencia Artificial (IA), orquestación y automatización de la respuesta a incidentes (SOAR), y la Detección y Respuesta Extendida (XDR) está marcando el futuro. Las plataformas XDR buscan unificar la visibilidad y el control a través de múltiples capas de seguridad (endpoints, red, nube, correo electrónico), alimentándose de análisis de Big Data para una detección y respuesta más coordinada y eficiente.</p>
+            <p>En conclusión, el Big Data es un aliado indispensable en la ciberseguridad moderna, proporcionando la inteligencia necesaria para enfrentar un panorama de amenazas cada vez más complejo y dinámico.</p>
+        </section>
+    </template>
+    <!-- Aquí podrías añadir más <template> para los otros artículos -->
+
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Smooth scroll para enlaces de navegación interna
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#') && href.length > 1) { // Asegura que no es solo "#"
+                    e.preventDefault();
+                    const targetId = href;
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerOffset = document.querySelector('header').offsetHeight;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                        // Cierra el menú móvil si está activo
+                        if (navLinks.classList.contains('active')) {
+                            navLinks.classList.remove('active');
+                            hamburger.textContent = '☰';
+                            hamburger.setAttribute('aria-label', 'Abrir menú');
+                        }
+                    }
+                }
+            });
+        });
+
+        // Menú Hamburguesa
+        const hamburger = document.querySelector('.hamburger-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                if (navLinks.classList.contains('active')) {
+                    hamburger.textContent = '✕'; 
+                    hamburger.setAttribute('aria-label', 'Cerrar menú');
+                } else {
+                    hamburger.textContent = '☰'; 
+                     hamburger.setAttribute('aria-label', 'Abrir menú');
+                }
+            });
+        }
+
+        // --- Lógica para el Modal del Artículo ---
+        const articleModal = document.getElementById('articleModal');
+        const closeModalBtn = document.querySelector('.close-modal-btn');
+        const readMoreLinks = document.querySelectorAll('.blog-card .read-more');
+
+        const modalTitleEl = document.getElementById('modalArticleTitle');
+        const modalDateEl = document.getElementById('modalArticleDate');
+        const modalReadTimeEl = document.getElementById('modalArticleReadTime');
+        const modalCategoryEl = document.getElementById('modalArticleCategory');
+        const modalImageEl = document.getElementById('modalArticleImage');
+        const modalBodyEl = document.getElementById('modalArticleBody');
+
+        function openArticleModal(articleId) {
+            const articleTemplate = document.getElementById(`article-${articleId}`);
+            if (articleTemplate) {
+                const articleContent = articleTemplate.content.cloneNode(true);
+                
+                // Extraer y poblar el header del modal
+                const headerContent = articleContent.querySelector('.modal-article-header-content');
+                if (headerContent) {
+                    modalTitleEl.textContent = headerContent.querySelector('h1')?.textContent || 'Título no disponible';
+                    const metaSpans = headerContent.querySelectorAll('.modal-article-meta-info-content span');
+                    // Limpiar spans anteriores
+                    modalDateEl.childNodes[1] && modalDateEl.childNodes[1].remove(); 
+                    modalReadTimeEl.childNodes[1] && modalReadTimeEl.childNodes[1].remove();
+                    modalCategoryEl.childNodes[1] && modalCategoryEl.childNodes[1].remove();
+
+                    if (metaSpans[0]) modalDateEl.appendChild(document.createTextNode(metaSpans[0].textContent));
+                    if (metaSpans[1]) modalReadTimeEl.appendChild(document.createTextNode(metaSpans[1].textContent));
+                    if (metaSpans[2]) modalCategoryEl.appendChild(document.createTextNode(metaSpans[2].textContent));
+                    
+                    const imageSrc = headerContent.querySelector('img')?.getAttribute('src');
+                    const imageAlt = headerContent.querySelector('img')?.getAttribute('alt');
+                    if (imageSrc) {
+                        modalImageEl.src = imageSrc;
+                        modalImageEl.alt = imageAlt || 'Imagen del artículo';
+                        modalImageEl.style.display = 'block';
+                    } else {
+                        modalImageEl.style.display = 'none';
+                    }
+                }
+
+                // Poblar el cuerpo del modal
+                const bodyContent = articleContent.querySelector('.modal-article-body-content');
+                if (bodyContent) {
+                    modalBodyEl.innerHTML = ''; // Limpiar contenido anterior
+                    modalBodyEl.appendChild(bodyContent);
+                }
+
+                articleModal.style.display = 'flex'; // Usar flex para centrar mejor
+                document.body.classList.add('modal-open');
+                 // Forzar reflujo para la animación de entrada
+                void articleModal.offsetWidth;
+                articleModal.classList.remove('fade-out');
+                articleModal.querySelector('.article-modal-content').classList.remove('slide-out');
+
+            } else {
+                console.warn(`Contenido para el artículo "${articleId}" no encontrado.`);
+                // Opcionalmente, mostrar un mensaje de error en el modal
+                modalTitleEl.textContent = 'Artículo no encontrado';
+                modalBodyEl.innerHTML = '<p>Lo sentimos, el contenido de este artículo no está disponible en este momento.</p>';
+                modalImageEl.style.display = 'none';
+                modalDateEl.childNodes[1] && modalDateEl.childNodes[1].remove(); 
+                modalReadTimeEl.childNodes[1] && modalReadTimeEl.childNodes[1].remove();
+                modalCategoryEl.childNodes[1] && modalCategoryEl.childNodes[1].remove();
+                articleModal.style.display = 'flex';
+                document.body.classList.add('modal-open');
+            }
+        }
+
+        function closeArticleModal() {
+            const modalContent = articleModal.querySelector('.article-modal-content');
+            articleModal.classList.add('fade-out');
+            modalContent.classList.add('slide-out');
+
+            // Esperar a que termine la animación para ocultar y limpiar
+            modalContent.addEventListener('animationend', function handler() {
+                articleModal.style.display = 'none';
+                document.body.classList.remove('modal-open');
+                // Limpiar contenido para la próxima vez (opcional, pero buena práctica)
+                // modalTitleEl.textContent = '';
+                // modalBodyEl.innerHTML = '';
+                // modalImageEl.src = '';
+                modalContent.removeEventListener('animationend', handler);
+                articleModal.classList.remove('fade-out'); // Preparar para la próxima apertura
+                modalContent.classList.remove('slide-out');
+            }, { once: true });
+        }
+
+
+        readMoreLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                const articleCard = event.target.closest('.blog-card');
+                const articleId = articleCard.dataset.articleId;
+                if (articleId) {
+                    openArticleModal(articleId);
+                } else {
+                    // Fallback o mensaje si no hay data-article-id
+                    console.warn("No se encontró 'data-article-id' en la tarjeta del blog.");
+                    openArticleModal('not-found'); // Intentar abrir un modal de "no encontrado"
+                }
+            });
+        });
+
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', closeArticleModal);
+        }
+
+        // Cerrar el modal si se hace clic fuera del contenido
+        window.addEventListener('click', (event) => {
+            if (event.target === articleModal) {
+                closeArticleModal();
+            }
+        });
+
+        // Cerrar el modal con la tecla Escape
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && articleModal.style.display === 'flex') {
+                closeArticleModal();
+            }
+        });
+
+    </script>
 </body>
 </html>
